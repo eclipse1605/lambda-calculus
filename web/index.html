@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lambda Calculus Web Interface</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>λ-Calculus Interpreter</h1>
+            <p>An interactive web interface for lambda calculus expressions</p>
+        </div>
+        <div class="theme-toggle-wrapper">
+            <button id="theme-toggle" aria-label="Toggle dark mode">
+                <i class="fas fa-moon dark-icon"></i>
+                <i class="fas fa-sun light-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <input type="text" id="expression-input" placeholder="Enter a lambda expression (e.g., λx.x)">
+                    <button id="evaluate-btn">Evaluate</button>
+                </div>
+                <div class="controls">
+                    <button id="step-btn" title="Single beta reduction step">β-reduction</button>
+                    <button id="normal-btn" title="Leftmost, outermost redex first">Normal Order</button>
+                    <button id="applicative-btn" title="Call-by-value evaluation strategy">Call-by-value</button>
+                    <button id="clear-btn">Clear History</button>
+                </div>
+                <div class="special-symbols">
+                    <span title="Lambda symbol">λ</span>
+                    <span title="Church encoding: true">TRUE</span>
+                    <span title="Church encoding: false">FALSE</span>
+                    <span title="Church encoding: and">AND</span>
+                    <span title="Church encoding: or">OR</span>
+                    <span title="Church encoding: not">NOT</span>
+                    <span title="Church numeral: 0">ZERO</span>
+                    <span title="Church numeral: 1">ONE</span>
+                    <span title="Church numeral: 2">TWO</span>
+                    <span title="Church numeral: 3">THREE</span>
+                    <span title="Addition">PLUS</span>
+                    <span title="Multiplication">MULT</span>
+                </div>
+            </div>
+
+            <div class="output-area">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="output">Output</button>
+                    <button class="tab-btn" data-tab="variables">Variables</button>
+                    <button class="tab-btn" data-tab="help">Help</button>
+                </div>
+
+                <div class="tab-content">
+                    <div id="output" class="tab-panel active">
+                        <div id="evaluation-history" class="output-panel"></div>
+                    </div>
+                    
+                    <div id="variables" class="tab-panel">
+                        <div class="variable-list">
+                            <h3>Predefined Variables</h3>
+                            <div id="variable-entries"></div>
+                            <div class="define-variable">
+                                <h3>Define a Variable</h3>
+                                <div class="var-input-wrapper">
+                                    <input type="text" id="var-name-input" placeholder="Variable name">
+                                    <input type="text" id="var-expr-input" placeholder="Expression">
+                                    <button id="define-var-btn">Define</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="help" class="tab-panel">
+                        <div class="help-content">
+                            <h3>What is Lambda Calculus?</h3>
+                            <p>Lambda calculus is a formal system in mathematical logic for expressing computation based on function abstraction and application. It was introduced by Alonzo Church in the 1930s as part of his research into the foundations of mathematics.</p>
+                            <p>Despite its simplicity, lambda calculus is Turing-complete, meaning it can express any computation that a Turing machine can perform.</p>
+                            
+                            <h3>Lambda Calculus Syntax</h3>
+                            <ul>
+                                <li><strong>Variables:</strong> Single letters like x, y, z that represent values or functions</li>
+                                <li><strong>Abstractions (λx.M):</strong> Functions with a parameter x and body M</li>
+                                <li><strong>Applications (M N):</strong> Applying function M to argument N</li>
+                                <li><strong>Parentheses:</strong> Used for explicit grouping of expressions</li>
+                            </ul>
+                            <div class="syntax-note">
+                                <p><strong>Note:</strong> You can type abstractions using either the lambda symbol (λ) or backslash (\). For example: <code>λx.x</code> or <code>\x.x</code></p>
+                            </div>
+                            
+                            <h3>Redex and β-reduction</h3>
+                            <p>A term of the form (λx.M) N is called a <strong>β-redex</strong>. The act of evaluating lambda calculus terms is called <strong>β-reduction</strong>, which replaces (λx.M) N with M[N/x] (substituting N for x in M).</p>
+                            <p>A term without β-redexes is said to be in <strong>β-normal form</strong>.</p>
+                            
+                            <h3>Evaluation Strategies</h3>
+                            <ul>
+                                <li><strong>β-reduction:</strong> Perform a single beta-reduction step</li>
+                                <li><strong>Normal Order:</strong> Reduce leftmost, outermost redex first (favored by Church-Rosser theorem)</li>
+                                <li><strong>Call-by-value:</strong> Evaluate arguments before applying functions (used in most programming languages)</li>
+                            </ul>
+                            
+                            <h3>Church Encodings</h3>
+                            <p>Church encodings are ways to represent data and operations using only lambda expressions:</p>
+                            
+                            <h4>Booleans</h4>
+                            <ul>
+                                <li><strong>TRUE:</strong> λx.λy.x</li>
+                                <li><strong>FALSE:</strong> λx.λy.y</li>
+                                <li><strong>AND:</strong> λp.λq.p q p</li>
+                                <li><strong>OR:</strong> λp.λq.p p q</li>
+                                <li><strong>NOT:</strong> λp.λa.λb.p b a</li>
+                            </ul>
+                            
+                            <h4>Church Numerals</h4>
+                            <ul>
+                                <li><strong>ZERO:</strong> λf.λx.x</li>
+                                <li><strong>ONE:</strong> λf.λx.f x</li>
+                                <li><strong>TWO:</strong> λf.λx.f (f x)</li>
+                                <li><strong>THREE:</strong> λf.λx.f (f (f x))</li>
+                            </ul>
+                            
+                            <h4>Arithmetic Operations</h4>
+                            <ul>
+                                <li><strong>SUCC:</strong> λn.λf.λx.f (n f x)</li>
+                                <li><strong>PLUS:</strong> λm.λn.λf.λx.m f (n f x)</li>
+                                <li><strong>MULT:</strong> λm.λn.λf.m (n f)</li>
+                                <li><strong>POW:</strong> λm.λn.n m</li>
+                            </ul>
+                            
+                            <h3>Using this Application</h3>
+                            <ul>
+                                <li><strong>Input:</strong> Type lambda expressions in the input field</li>
+                                <li><strong>Evaluation:</strong> Choose your evaluation strategy (β-reduction, Normal Order, or Call-by-value)</li>
+                                <li><strong>Variables:</strong> Define your own variables in the Variables tab</li>
+                                <li><strong>Dark Mode:</strong> Toggle between light and dark themes with the moon/sun button</li>
+                            </ul>
+                            
+                            <h3>Example Expressions</h3>
+                            <ul>
+                                <li><strong>Identity function:</strong> <code>λx.x</code></li>
+                                <li><strong>Application to a variable:</strong> <code>(λx.x) y</code></li>
+                                <li><strong>Constant function:</strong> <code>λx.λy.x</code></li>
+                                <li><strong>Boolean AND:</strong> <code>(AND TRUE FALSE)</code></li>
+                                <li><strong>Addition:</strong> <code>(PLUS TWO THREE)</code></li>
+                                <li><strong>Y combinator:</strong> <code>λf.(λx.f (x x)) (λx.f (x x))</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="syntax.js"></script>
+    <script src="parser.js"></script>
+    <script src="semantics.js"></script>
+    <script src="encodings.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
