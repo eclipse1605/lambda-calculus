@@ -1,12 +1,12 @@
-# Lambda Calculus Implementation in Python
+# Lambda Calculus Implementation
 
-A modular implementation of lambda calculus in Python, inspired by the reference lecture notes. This implementation provides a full-featured environment for working with lambda calculus expressions, including syntax representation, parsing, evaluation, and common encodings. The project includes both a command-line REPL and a web-based interface for interacting with lambda calculus expressions.
+A modular implementation of lambda calculus in Python, inspired by the reference lecture notes. The project includes both a command-line REPL and a web-based interface for interacting with lambda calculus expressions.
 
 ## Features
 
 - **Expression Representation**: Classes for variables, lambda abstractions, and applications
 - **Parser**: Convert lambda calculus notation to syntax tree objects
-- **Evaluation Strategies**: 
+- **Evaluation Strategies**:
   - Normal order evaluation (leftmost, outermost)
   - Applicative order evaluation (leftmost, innermost)
   - β-reduction
@@ -41,11 +41,13 @@ python main.py
 To start the web-based interface:
 
 1. Navigate to the web directory:
+
    ```bash
    cd web
    ```
 
 2. Start a local HTTP server:
+
    ```bash
    # Using Python 3's built-in server
    python -m http.server
@@ -57,7 +59,7 @@ To start the web-based interface:
 
 ### Basic Lambda Expressions
 
-```
+```bash
 λ> λx.x
 Parsed: λx.x
 
@@ -71,7 +73,7 @@ Steps taken: 1
 
 ### Working with Church Numerals
 
-```
+```bash
 λ> church 3
 Church numeral for 3: λf.λx.f (f (f x))
 
@@ -85,7 +87,7 @@ Extracted value: 5
 
 ### Defining Custom Variables
 
-```
+```bash
 λ> let ID λx.x
 Defined ID = λx.x
 
