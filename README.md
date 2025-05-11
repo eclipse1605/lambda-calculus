@@ -137,10 +137,6 @@ The implementation supports the standard lambda calculus syntax:
 - Applications: `M N` (with left-associativity)
 - Parentheses: `(M)` for explicit grouping
 
-### Web Interface Syntax
-
-In the web interface, you can use backslash (`\`) which will automatically be converted to lambda symbol (λ) in the display. This provides a more convenient way of entering lambda expressions while maintaining proper notation in the output.
-
 ## Web Interface Features
 
 - **Interactive REPL**: Type lambda calculus expressions and see results immediately
